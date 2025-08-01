@@ -1,0 +1,163 @@
+{
+  "name": "auto-relpath-comments",
+  "publisher": "rohan2by1",
+  "displayName": "AutoRelPath Comments",
+  "icon": "images/icon.png",
+  "description": "Easily insert relative path comments in your files. Right-click on folders to process all files in that directory.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Other",
+    "Snippets",
+    "Formatters"
+  ],
+  "keywords": [
+    "comment",
+    "path",
+    "relative",
+    "file",
+    "documentation",
+    "batch",
+    "insert",
+    "header",
+    "directory"
+  ],
+  "activationEvents": [
+    "onCommand:auto-relpath-comments.insertCurrentFile",
+    "onCommand:auto-relpath-comments.insertInDirectory",
+    "onCommand:auto-relpath-comments.insertSpecificFormatInDirectory",
+    "onCommand:auto-relpath-comments.undoLastAction"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "auto-relpath-comments.insertCurrentFile",
+        "title": "Add Relative Path Comment to This File (ARP)",
+        "category": "AutoRelPath Comments",
+        "description": "Inserts a relative path comment at the top of the current file."
+      },
+      {
+        "command": "auto-relpath-comments.insertInDirectory",
+        "title": "Add Relative Path Comments to All Files in Folder (ARP)",
+        "category": "AutoRelPath Comments",
+        "description": "Inserts relative path comments at the top of all files in the selected folder."
+      },
+      {
+        "command": "auto-relpath-comments.insertSpecificFormatInDirectory",
+        "title": "Add Path Comments to Specific File Types (ARP)",
+        "category": "AutoRelPath Comments",
+        "description": "Inserts relative path comments at the top of all files with a specific file type in the selected folder."
+      },
+      {
+        "command": "auto-relpath-comments.undoLastAction",
+        "title": "Undo Last Path Comment Action (ARP)",
+        "category": "AutoRelPath Comments",
+        "description": "Undoes the last action performed by the AutoRelPath Comments extension."
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "auto-relpath-comments.insertCurrentFile",
+          "when": "!explorerResourceIsFolder",
+          "group": "relativePathComment@1"
+        },
+                {
+          "command": "auto-relpath-comments.insertInDirectory",
+          "when": "explorerResourceIsFolder",
+          "group": "relativePathComment@1"
+        },
+        {
+          "command": "auto-relpath-comments.insertSpecificFormatInDirectory",
+          "when": "explorerResourceIsFolder",
+          "group": "relativePathComment@2"
+        },
+        {
+          "command": "auto-relpath-comments.undoLastAction",
+          "when": "explorerViewletVisible",
+          "group": "relativePathCommentUndo@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "auto-relpath-comments.insertCurrentFile",
+          "when": "editorTextFocus",
+          "group": "relativePathComment@1"
+        },
+        {
+          "command": "auto-relpath-comments.undoLastAction",
+          "when": "explorerViewletVisible",
+          "group": "relativePathCommentUndo@1"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "auto-relpath-comments.insertCurrentFile",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "auto-relpath-comments.undoLastAction",
+        "key": "ctrl+alt+u",
+        "mac": "cmd+alt+u",
+        "when": "explorerViewletVisible || editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "AutoRelPath Comments",
+      "properties": {
+        "relativePathComment.useForwardSlashes": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use forward slashes (/) instead of backslashes (\\) in paths"
+        },
+        "relativePathComment.maxFileSize": {
+          "type": "number",
+          "default": 1048576,
+          "description": "Maximum file size in bytes to process (default: 1MB)",
+          "minimum": 1024
+        },
+        "relativePathComment.confirmLargeOperations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask for confirmation when processing more than 10 files"
+        },
+        "relativePathComment.openFilesInEditor": {
+          "type": "boolean",
+          "default": true,
+          "description": "Default behavior for opening files during batch processing (user can override per operation)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.100.0",
+    "@types/node": "18.x",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.47.0",
+    "typescript": "^5.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rohan2by1/auto-relpath-comments"
+  },
+  "bugs": {
+    "url": "https://github.com/rohan2by1/auto-relpath-comments/issues"
+  },
+  "homepage": "https://github.com/rohan2by1/auto-relpath-comments#readme",
+  "license": "MIT"
+}
